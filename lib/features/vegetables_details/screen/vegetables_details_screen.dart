@@ -89,7 +89,7 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Colors.grey),
                     ),
-                    child: const Icon(Icons.favorite_border),
+                    child:  Icon(Icons.favorite_border),
                   ),
                 ),
                 const SizedBox(width: 16),
