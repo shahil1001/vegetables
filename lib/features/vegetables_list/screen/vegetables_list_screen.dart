@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api_call_with_mvc/core/image_resources.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_list/controller/home_screen_controller.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_list/extenstion/login_extenstion.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_list/controller/vegetables_list_screen_controller.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_list/extenstion/vegetables_list_screen_extenstion.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

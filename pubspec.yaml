@@ -46,6 +46,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   shimmer: ^3.0.0
   fan_carousel_image_slider: ^1.0.1
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

@@ -12,7 +12,7 @@ import 'package:flutter_api_call_with_mvc/core/routes/app_routes.dart';
 import 'package:flutter_api_call_with_mvc/core/text/app_text_widget.dart';
 import 'package:flutter_api_call_with_mvc/core/textfields/app_common_text_form_field.dart';
 import 'package:flutter_api_call_with_mvc/core/utils/foundation.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_list/screen/home_screen.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_list/screen/vegetables_list_screen.dart';
 import 'package:flutter_api_call_with_mvc/features/vegetables_list/vegetable_response_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -176,7 +176,7 @@ extension VegetablesListScreenExtenstion on VegetablesListScreen {
                   Routes.vegetableDetailsScreen,
                   arguments: {
                     'title': vegetable.name,
-                    'price': 1.10,
+                    'price': vegetable.discountedPrice.toString(),
                     'imageUrl': ImageResource.veg1, // Replace with actual image URL
                   },
                 );

@@ -3,10 +3,10 @@ import 'package:flutter_api_call_with_mvc/features/login_signup_process/login/bi
 import 'package:flutter_api_call_with_mvc/features/login_signup_process/login/screens/login_screen.dart';
 import 'package:flutter_api_call_with_mvc/features/login_signup_process/signup/binding/signup_screen_binding.dart';
 import 'package:flutter_api_call_with_mvc/features/login_signup_process/signup/screens/signup_screen.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_details/binding/home_screen_binding.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_details/binding/vegetables_details_screen_binding.dart';
 import 'package:flutter_api_call_with_mvc/features/vegetables_details/screen/vegetables_details_screen.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_list/binding/home_screen_binding.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_list/screen/home_screen.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_list/binding/vegetables_list_screen_binding.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_list/screen/vegetables_list_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class Routes {
