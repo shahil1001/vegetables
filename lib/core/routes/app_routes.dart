@@ -1,4 +1,8 @@
 import 'package:flutter_api_call_with_mvc/core/constants/common_strings.dart';
+import 'package:flutter_api_call_with_mvc/features/add_vegetable/screen/add_vagetable_details_screen.dart';
+import 'package:flutter_api_call_with_mvc/features/add_vegetable/binding/add_vagetable_details_screen_binding.dart';
+import 'package:flutter_api_call_with_mvc/features/edit_vegetable/binding/edit_vagetable_details_screen_binding.dart';
+import 'package:flutter_api_call_with_mvc/features/edit_vegetable/screen/edit_vagetable_details_screen.dart';
 import 'package:flutter_api_call_with_mvc/features/login_signup_process/login/binding/login_screen_binding.dart';
 import 'package:flutter_api_call_with_mvc/features/login_signup_process/login/screens/login_screen.dart';
 import 'package:flutter_api_call_with_mvc/features/login_signup_process/signup/binding/signup_screen_binding.dart';
@@ -16,6 +20,8 @@ class Routes {
   static const vegetableDetailsScreen = "/vegetableDetailsScreen";
   static const String loginScreen = "/LoginScreen";
   static const String signUpScreen = "/SignUpScreen";
+  static const String editVegetableScreen = "/editVegetableScreen";
+  static const String addVegetableScreen = "/addVegetableScreen";
 }
 
 List<GetPage> appPages() => [
@@ -42,6 +48,23 @@ List<GetPage> appPages() => [
     page: () => const SignUpScreen(),
     fullscreenDialog: true,
     binding: SignUpScreenBinding(),
+    transition: CommonStrings.transition,
+    transitionDuration:
+    const Duration(milliseconds: CommonStrings.transitionDuration),
+  ),
+  GetPage(
+    name: Routes.editVegetableScreen,
+    page: () =>  EditVegetableDetailsScreen(),
+    fullscreenDialog: true,
+    binding: EditVegetableDetailsScreenBinding(),
+    transition: CommonStrings.transition,
+    transitionDuration:
+    const Duration(milliseconds: CommonStrings.transitionDuration),
+  ),GetPage(
+    name: Routes.addVegetableScreen,
+    page: () =>  AddVegetableDetailsScreen(),
+    fullscreenDialog: true,
+    binding: AddVegetableDetailsScreenBinding(),
     transition: CommonStrings.transition,
     transitionDuration:
     const Duration(milliseconds: CommonStrings.transitionDuration),

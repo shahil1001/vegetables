@@ -36,9 +36,10 @@ class VegetablesListScreen extends GetView<HomeScreenController> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.grid_view),
+            icon: Icon(Icons.grid_view_sharp),
             label: '',
           ),
           BottomNavigationBarItem(
@@ -52,7 +53,7 @@ class VegetablesListScreen extends GetView<HomeScreenController> {
         ],
         selectedItemColor: Colors.purple,
         unselectedItemColor: Colors.grey,
-      ),
+      )
     );
   }
 

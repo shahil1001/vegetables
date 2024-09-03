@@ -3,6 +3,8 @@ class EndPoints {
   static const String baseUrl = "https://shareittofriends.com/demo/flutter";
   static const String threeDMapBaseUrl = "https://b209-103-163-58-226.ngrok-free.app";
   static const String getProductsList = "/productList.php";
+  static const String addProductsList = "/addProduct.php";
+  static const String editProductsList = "/editProduct.php";
   static const String login = "/Login.php";
   static const String register = "/register";
   static const String forgotPassword = "/forgot_password";

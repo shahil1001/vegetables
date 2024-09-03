@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 
 class VegetablesDetailsScreenController extends GetxController {
   late String title;
+  late String moq;
   late String price;
+  late String discountedPrice;
   late String imageUrl;
+  late String id;
 
   final imageUrls = [
     ImageResource.veg1,
@@ -18,17 +21,20 @@ class VegetablesDetailsScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getVegetablesList(); // Corrected method name
+    getVegetablesListData(); // Corrected method name
   }
 
 // Variables to store passed arguments
 
-  void getVegetablesList() {
+  void getVegetablesListData() {
     final arguments = Get.arguments as Map<String, dynamic>;
     title = arguments['title'];
     price = arguments['price'];
     imageUrl = arguments['imageUrl'];
-    log("imageUrl---${price}");
+    id = arguments['id'];
+    discountedPrice = arguments['discountedPrice'];
+    moq = arguments['moq'];
+    log("imageUrl---${id}");
   }
 
 

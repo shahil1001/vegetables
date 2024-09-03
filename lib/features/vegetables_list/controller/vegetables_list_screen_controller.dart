@@ -5,7 +5,8 @@ import 'package:flutter_api_call_with_mvc/core/image_resources.dart';
 
 import 'package:flutter_api_call_with_mvc/core/network_utility/api_hitter.dart';
 import 'package:flutter_api_call_with_mvc/core/network_utility/app_end_points.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_list/vegetable_response_model.dart';
+import 'package:flutter_api_call_with_mvc/core/routes/app_routes.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_list/model/vegetable_response_model.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 
@@ -65,5 +66,7 @@ class HomeScreenController extends GetxController {
       isLoading.value = false;
     }
   }
+
+
 }
 

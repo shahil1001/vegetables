@@ -4,6 +4,7 @@ import 'package:flutter_api_call_with_mvc/core/common_functionality/dismiss_keyb
 import 'package:flutter_api_call_with_mvc/core/constants/app_strings.dart';
 import 'package:flutter_api_call_with_mvc/core/gradient_txt.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import 'text/app_text_widget.dart';
@@ -105,4 +106,16 @@ Future<void> showCommonAlertSingleButtonDialog(
           ),
         ));
   }
+}
+
+void showToast(String text) {
+  Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_LONG, // Duration of the toast
+      gravity: ToastGravity.BOTTOM,    // Position of the toast
+      timeInSecForIosWeb: 1,           // Duration in seconds for iOS and web
+      backgroundColor: Colors.black,   // Background color of the toast
+      textColor: Colors.white,          // Text color of the toast
+      fontSize: 16.0                    // Font size of the toast text
+  );
 }

@@ -1,24 +1,16 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_api_call_with_mvc/core/asset_widget/common_image_widget.dart';
-import 'package:flutter_api_call_with_mvc/core/common_button/common_button.dart';
-import 'package:flutter_api_call_with_mvc/core/common_button/custom_icon_button.dart';
-import 'package:flutter_api_call_with_mvc/core/common_container/border_container.dart';
-import 'package:flutter_api_call_with_mvc/core/constants/app_strings.dart';
 import 'package:flutter_api_call_with_mvc/core/gradient_txt.dart';
 import 'package:flutter_api_call_with_mvc/core/image_resources.dart';
 import 'package:flutter_api_call_with_mvc/core/routes/app_routes.dart';
 import 'package:flutter_api_call_with_mvc/core/text/app_text_widget.dart';
-import 'package:flutter_api_call_with_mvc/core/textfields/app_common_text_form_field.dart';
 import 'package:flutter_api_call_with_mvc/core/utils/foundation.dart';
 import 'package:flutter_api_call_with_mvc/features/vegetables_list/screen/vegetables_list_screen.dart';
-import 'package:flutter_api_call_with_mvc/features/vegetables_list/vegetable_response_model.dart';
+import 'package:flutter_api_call_with_mvc/features/vegetables_list/model/vegetable_response_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../../core/theme/app_color_palette.dart';
 
 extension VegetablesListScreenExtenstion on VegetablesListScreen {
   Widget buildBackgroundImage() {
@@ -144,7 +136,7 @@ extension VegetablesListScreenExtenstion on VegetablesListScreen {
               );
             })
 
-        *//*  VegetableItem(
+        */ /*  VegetableItem(
           imagePath: ImageResource.veg2,
           name: 'Purple Cauliflower',
           price: '1.85 € / kg',
@@ -153,7 +145,7 @@ extension VegetablesListScreenExtenstion on VegetablesListScreen {
           imagePath: ImageResource.veg3,
           name: 'Savoy Cabbage',
           price: '1.45 € / kg',
-        ),*//*
+        ),*/ /*
         // Add more VegetableItem widgets as needed
               ],
             ));
@@ -169,7 +161,7 @@ extension VegetablesListScreenExtenstion on VegetablesListScreen {
           itemBuilder: (context, index) {
             final vegetable = controller.vegetables[index];
             return GestureDetector(
-              onTap: (){
+              onTap: () {
                 log("message---->${vegetable.name}");
                 // Get.toNamed(Routes.vegetableDetailsScreen);
                 Get.toNamed(
@@ -177,10 +169,13 @@ extension VegetablesListScreenExtenstion on VegetablesListScreen {
                   arguments: {
                     'title': vegetable.name,
                     'price': vegetable.discountedPrice.toString(),
-                    'imageUrl': ImageResource.veg1, // Replace with actual image URL
+                    'imageUrl': ImageResource.veg1,
+                    "id":vegetable.id,
+                    "discountedPrice":vegetable.discountedPrice,
+                    "moq":vegetable.moq,
+                    // Replace with actual image URL
                   },
                 );
-
               },
               child: VegetableItem(
                 imagePath: ImageResource.veg1, // Use appropriate image resource
@@ -193,7 +188,6 @@ extension VegetablesListScreenExtenstion on VegetablesListScreen {
       }
     });
   }
-
 
   Widget buildShimmerCategoryChips() {
     return SingleChildScrollView(
@@ -411,7 +405,9 @@ class VegetableItem extends StatelessWidget {
       ),
       child: IconButton(
         icon: Icon(Icons.shopping_cart, color: Colors.white),
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(Routes.addVegetableScreen);
+        },
       ),
     );
   }

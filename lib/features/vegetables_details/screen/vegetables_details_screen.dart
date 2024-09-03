@@ -1,14 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_api_call_with_mvc/features/edit_vagetable_details_screen.dart';
+import 'package:flutter_api_call_with_mvc/core/routes/app_routes.dart';
+import 'package:flutter_api_call_with_mvc/features/edit_vegetable/screen/edit_vagetable_details_screen.dart';
 import 'package:flutter_api_call_with_mvc/features/vegetables_details/controller/vegetables_details_screen_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-
-
-class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController> {
+class VegetablesDetailsScreen
+    extends GetView<VegetablesDetailsScreenController> {
   const VegetablesDetailsScreen({super.key});
 
   @override
@@ -55,17 +55,18 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
                 child: IconButton(
                   icon: const Icon(Icons.edit, color: Colors.white),
                   onPressed: () {
-                    Get.to(() => EditVegetableDetailsScreen(), arguments: {
+                    Get.toNamed(Routes.editVegetableScreen, arguments: {
                       'name': controller.title,
-                      'moq': 20,
+                      'moq': controller.moq,
                       // Example value, replace it with actual data
                       'price': controller.price,
-                      'discounted_price': 18,
+                      'discounted_price': controller.discountedPrice,
                       // Example value, replace it with actual data
-                      'id': 1,
+                      'id': controller.id,
                       // Example value, replace it with actual data
                     });
-                   // Use GetX to navigate back
+
+                    // Use GetX to navigate back
                   },
                 ),
               ),
@@ -76,9 +77,10 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       controller.imageUrls.length,
-                          (index) => AnimatedContainer(
+                      (index) => AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        width: controller.currentIndex.value == index ? 12.0 : 8.0,
+                        width:
+                            controller.currentIndex.value == index ? 12.0 : 8.0,
                         height: 8.0,
                         margin: const EdgeInsets.symmetric(horizontal: 4.0),
                         decoration: BoxDecoration(
@@ -98,7 +100,7 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
           // Rest of your UI
           Expanded(
             child: Container(
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
@@ -146,7 +148,7 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
                         fontSize: 16,
                         color: Color(0xFF00C853),
                         fontWeight: FontWeight.w600 // Green color
-                    ),
+                        ),
                   ),
                   Text(
                     'Spain',
@@ -158,14 +160,14 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
                   ).marginOnly(top: 20.h),
                   Text(
                     'Lettuce is an annual plant of the daisy family, Asteraceae. '
-                        'It is most often grown as a leaf vegetable, but sometimes for its stem and seeds. '
-                        'Lettuce is most often used for salads, although it is also seen in other kinds of food, '
-                        'such as soups, sandwiches and wraps; it can also be grilled.',
+                    'It is most often grown as a leaf vegetable, but sometimes for its stem and seeds. '
+                    'Lettuce is most often used for salads, although it is also seen in other kinds of food, '
+                    'such as soups, sandwiches and wraps; it can also be grilled.',
                     style: TextStyle(
                         fontSize: 15.sp,
                         color: const Color(0xFFB0A4C2),
                         fontWeight: FontWeight.w500 // Light purple color
-                    ),
+                        ),
                   ).marginOnly(top: 20.h),
 
                   // Spacer
@@ -173,7 +175,8 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
 
                   // Bottom buttons
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 16.0),
                     child: Row(
                       children: [
                         // OutlinedButton for the favorite icon
@@ -189,7 +192,8 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
                             ),
                           ),
                           child: IconButton(
-                            icon: Icon(Icons.favorite_border, color: Colors.grey),
+                            icon:
+                                Icon(Icons.favorite_border, color: Colors.grey),
                             onPressed: () {},
                           ),
                         ),
@@ -201,11 +205,13 @@ class VegetablesDetailsScreen extends GetView<VegetablesDetailsScreenController>
                               // Handle add to cart action
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF00C853), // Green color
+                              backgroundColor: const Color(0xFF00C853),
+                              // Green color
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
                             ),
                             icon: const Icon(
                               color: Colors.white,
