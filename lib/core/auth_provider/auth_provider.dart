@@ -25,12 +25,11 @@ class AuthProvider{
   }
   Future<SignUpModel?> signUpRequest({required var body,bool showError=true}) async {
     try {
-      var response = await apiHitter.multiPart(
+      var response = await apiHitter.postApii(
           endPoint: EndPoints.register,
-          body: body,
-        showErrorDialog: showError
+          body: body
       );
-      return SignUpModel.fromJson(jsonDecode(response.data));
+      return SignUpModel.fromJson(response.data);
     } catch (e) {
       log("Error>> ${e.toString()}");
       return null;

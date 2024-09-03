@@ -51,21 +51,7 @@ extension SignUpScreenExtenstion on SignUpScreen {
         .paddingOnly(bottom: 12.h));
   }
 
-  Widget lastNameTxtField() {
-    return Obx(() => commonTextFieldWidget(
-            maxLength: 30,
-            title: AppStrings.lastName.tr,
-            keyboardType: TextInputType.name,
-            hint: AppStrings.enterLastName.tr,
-            controller: controller.lastNameController,
-            focusNode: controller.lastNameFocusNode.value,
-            nextNode: controller.emailFocusNode.value,
-            errorMsg: controller.lastNameErrorMsg,
-            isError: controller.isLastNameError.value,
-            onChanged: (value) => controller.validate(onChangeLastName: true),
-            lastIconPath: ImageResource.userIc)
-        .paddingOnly(bottom: 12.h));
-  }
+
 
   Widget emailTxtField() {
     return Obx(() => commonTextFieldWidget(
@@ -79,6 +65,20 @@ extension SignUpScreenExtenstion on SignUpScreen {
             isError: controller.isEmailError.value,
             onChanged: (value) => controller.validate(onChangeEmail: true),
             lastIconPath: ImageResource.mailIc)
+        .paddingOnly(bottom: 12.h));
+  }
+  Widget phoneTxtField() {
+    return Obx(() => commonTextFieldWidget(
+        title: AppStrings.mobilePhone.tr,
+        hint: AppStrings.hintMobile.tr,
+        controller: controller.phoneController,
+        keyboardType: TextInputType.phone,
+        focusNode: controller.phoneFocusNode.value,
+        nextNode: controller.pwdFocusNode.value,
+        errorMsg: controller.phoneErrorMsg,
+        isError: controller.isphoneError.value,
+        onChanged: (value) => controller.validate(onChangePhone: true),
+        lastIconPath: ImageResource.mailIc)
         .paddingOnly(bottom: 12.h));
   }
 
@@ -149,7 +149,7 @@ extension SignUpScreenExtenstion on SignUpScreen {
     ).paddingOnly(bottom: 22.h);
   }
 
-  Widget signUpGoogle() {
+/*  Widget signUpGoogle() {
     return CustomTapState(
       onTap: () => controller.onLoginWithGoogleClick(),
       child: BorderContainer(
@@ -195,7 +195,7 @@ extension SignUpScreenExtenstion on SignUpScreen {
         ),
       ).paddingOnly(bottom: 18.h),
     ):const SizedBox().paddingOnly(bottom: 18.h);
-  }
+  }*/
 
   Widget notHaveAccountText() {
     return Row(

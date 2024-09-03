@@ -29,7 +29,9 @@ extension VegetablesListScreenExtenstion on VegetablesListScreen {
   Widget buildBackButton() {
     return IconButton(
       icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-      onPressed: () {},
+      onPressed: () {
+        controller.logoutFunctionality();
+      },
     );
   }
 
@@ -328,6 +330,8 @@ class VegetableItem extends StatelessWidget {
         children: [
           Text(
             name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 16.0.w,
               fontWeight: FontWeight.bold,
@@ -355,7 +359,7 @@ class VegetableItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 16.0),
+          SizedBox(height: 10.h),
           buildActionButtons(),
         ],
       ),

@@ -48,7 +48,7 @@ class AddVegetableDetailsScreenController extends GetxController {
   Future addVegetablesList() async {
     isLoading.value = true;
     try {
-      var token = "c2a2f674c6f6a1d2374da1ebfab69adc";
+      var token = await Prefs.read(Prefs.userToken);
 
       var formData = dio.FormData.fromMap({
         "user_login_token": token,

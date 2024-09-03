@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter_api_call_with_mvc/core/common_dialog.dart';
 import 'package:flutter_api_call_with_mvc/core/image_resources.dart';
 
 import 'package:flutter_api_call_with_mvc/core/network_utility/api_hitter.dart';
 import 'package:flutter_api_call_with_mvc/core/network_utility/app_end_points.dart';
 import 'package:flutter_api_call_with_mvc/core/routes/app_routes.dart';
+import 'package:flutter_api_call_with_mvc/core/storage/local_storage.dart';
 import 'package:flutter_api_call_with_mvc/features/vegetables_list/model/vegetable_response_model.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -40,7 +42,7 @@ class HomeScreenController extends GetxController {
   void getVegetablesList() async {
     isLoading.value = true;
     try {
-      var token = "c2a2f674c6f6a1d2374da1ebfab69adc";
+      var token = await Prefs.read(Prefs.userToken);
       var formData = dio.FormData.fromMap({
         "user_login_token": token,
       });
@@ -66,7 +68,13 @@ class HomeScreenController extends GetxController {
       isLoading.value = false;
     }
   }
-
+  logoutFunctionality() {
+    showCommonAlertWithTwoActionsDialog(title: "LogOut!", subHeader: "Are you sure you want to logout?", yesPressed: () {
+      Prefs.erase();
+      Prefs.write(Prefs.userToken, '');
+      Get.offAllNamed(Routes.loginScreen);
+    },rightButtonTitle: "Logout");
+  }
 
 }
 

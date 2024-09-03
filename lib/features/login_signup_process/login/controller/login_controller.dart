@@ -151,7 +151,7 @@ class LoginController extends GetxController {
 
       // Email verification logic
       if (response?.data?.email != null) {
-        Prefs.write(Prefs.userId, response?.data?.id ?? '');
+        Prefs.write(Prefs.userToken, response?.data?.userToken ?? '');
         Get.offAllNamed(Routes.homeScreen);
       } else {
         var errorMsg = response?.message ?? 'Email not verified';

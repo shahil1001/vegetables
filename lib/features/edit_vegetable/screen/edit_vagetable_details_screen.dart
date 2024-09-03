@@ -235,6 +235,46 @@ class EditVegetableDetailsScreen extends GetView<EditVegetableDetailsScreenContr
                                     ),
                                   ),
                                 ),
+
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+                            child: Row(
+                              children: [
+                                // ElevatedButton for "SAVE CHANGES"
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      if (controller.formKey.currentState!.validate()) {
+                                        // Handle save action here
+                                        controller.deleteVegetablesList();
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.grey[200], // Green color
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                    ),
+                                    icon: const Icon(
+                                      color: Colors.red,
+                                      Icons.delete,
+                                      size: 24,
+                                    ),
+                                    label: const Text(
+                                      'DELETE PRODUCT',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
                               ],
                             ),
                           ),

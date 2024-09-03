@@ -12,24 +12,13 @@ class DioExceptions implements Exception {
   DioExceptions.fromDioError({required dio.DioException dioError}) {
     switch (dioError.type) {
       case dio.DioExceptionType.cancel:
+      // Handle cancellation
         break;
+
       case dio.DioExceptionType.connectionTimeout:
-        apiErrorDialog(
-          message: AppStrings.connectionTimeOut.tr,
-          okButtonPressed: () {
-            Get.back();
-          },
-        );
-        break;
       case dio.DioExceptionType.receiveTimeout:
-        apiErrorDialog(
-          message: AppStrings.connectionTimeOut.tr,
-          okButtonPressed: () {
-            Get.back();
-          },
-        );
-        break;
       case dio.DioExceptionType.connectionError:
+      // Handle connection timeout
         apiErrorDialog(
           message: AppStrings.connectionTimeOut.tr,
           okButtonPressed: () {
@@ -40,35 +29,46 @@ class DioExceptions implements Exception {
 
       case dio.DioExceptionType.badResponse:
         dio.Response? response = dioError.response;
+        int statusCode = response?.statusCode ?? 0;
+        String statusMessage = response?.statusMessage ?? AppStrings.strSometingWentWrong.tr;
 
-        var data = response?.data;
+        String? message;
 
-        int statusCode = response?.statusCode is String
-            ? int.parse(response?.statusCode as String? ?? '1000')
-            : response?.statusCode ?? 0;
-        print('Error status code is $statusCode and data ${response?.data}');
-        log('response is ${response?.data} and $response');
-        var statusMessage =
-            response?.statusMessage ?? AppStrings.strSometingWentWrong.tr;
+        if (response?.data != null) {
+          if (response?.data is Map) {
+            // Assuming your API returns the error message in a "message" field
+            if (response?.data['message'] != null) {
+              message = response?.data['message'];
+            } else if (response?.data['error'] != null) {
+              message = response?.data['error'];
+            } else {
+              message = statusMessage;
+            }
+          } else {
+            message = statusMessage;
+          }
+        } else {
+          message = statusMessage;
+        }
 
-        if (statusCode == 413) {
+        if (statusCode == 400) {
+          // Handling 400 Bad Request explicitly to show the API's message
           apiErrorDialog(
-            message: statusMessage,
+            message: message ?? AppStrings.strSometingWentWrong.tr,
             okButtonPressed: () {
               Get.back();
             },
           );
         } else if (statusCode == 401) {
+          // Handle unauthorized (e.g., logout and redirect to login)
           apiErrorDialog(
-            message: statusMessage,
+            message: message ?? statusMessage,
             okButtonPressed: () {
               Prefs.erase();
               if (Get.currentRoute != Routes.loginScreen) {
                 if (Get.isRegistered<LoginController>()) {
                   var controller = Get.find<LoginController>();
-                  Get.until(
-                    (route) => route.settings.name == Routes.loginScreen,
-                  );
+                  Get.until((route) => route.settings.name == Routes.loginScreen);
                   controller.cleanFields();
                 } else {
                   Get.offAllNamed(Routes.loginScreen);
@@ -79,46 +79,13 @@ class DioExceptions implements Exception {
             },
           );
         } else {
-          String? message;
-          if (data != null &&
-              data is Map &&
-              data.containsKey('detail') &&
-              data["detail"] is String?) {
-            message = data["detail"];
-          } else if (data != null &&
-              data is Map &&
-              data.containsKey('email') &&
-              data["email"] is List? &&
-              ((data["email"] as List?)?.length ?? 0) >= 1) {
-            message = data["email"][0];
-          } else if (data != null &&
-              data is Map &&
-              data.containsKey('name') &&
-              data["name"] is List? &&
-              ((data["name"] as List?)?.length ?? 0) >= 1) {
-            message = data["name"][0];
-          } else {
-            message = statusMessage;
-          }
-          // var message = data["error"];
-          // var message = data["message"];
-          if (statusCode == 401) {
-            // logoutFunctionality();
-            apiErrorDialog(
-              message: message ?? AppStrings.strSometingWentWrong.tr,
-              okButtonPressed: () {
-                Get.back();
-              },
-            );
-          } else {
-            print('inside else part $message');
-            apiErrorDialog(
-              message: message ?? AppStrings.strSometingWentWrong.tr,
-              okButtonPressed: () {
-                Get.back();
-              },
-            );
-          }
+          // Handle other status codes
+          apiErrorDialog(
+            message: message ?? AppStrings.strSometingWentWrong.tr,
+            okButtonPressed: () {
+              Get.back();
+            },
+          );
         }
         break;
 
@@ -130,15 +97,8 @@ class DioExceptions implements Exception {
           },
         );
         break;
-      case dio.DioExceptionType.unknown:
-        apiErrorDialog(
-          message: AppStrings.strSometingWentWrong.tr,
-          okButtonPressed: () {
-            Get.back();
-          },
-        );
-        break;
 
+      case dio.DioExceptionType.unknown:
       default:
         apiErrorDialog(
           message: AppStrings.strSometingWentWrong.tr,
@@ -150,6 +110,7 @@ class DioExceptions implements Exception {
     }
   }
 }
+
 
 apiErrorDialog(
     {String? title, required String message, Function()? okButtonPressed}) {

@@ -35,8 +35,8 @@ class LoginScreen extends GetView<LoginController> {
                       pwdTxtField(),
                       forgotPwdTxt(),
                       loginBtn(),
-                      signUpGoogle(),
-                      signUpApple(),
+                      // signUpGoogle(),
+                      // signUpApple(),
                       notHaveAccountText(),
                       bottomSpace()
                     ],

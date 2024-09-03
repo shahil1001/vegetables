@@ -3,7 +3,7 @@ import 'package:get_storage/get_storage.dart';
 
 class Prefs {
   static const String token = "token";
-  static const String userId = "user_id";
+  static const String userToken = "user_id";
   static const String name = "name";
   static const String email = "email";
   static const String address = "address";
@@ -39,9 +39,9 @@ class Prefs {
   static erase() {
     String tempToken = '';
     var box = GetStorage();
-    tempToken = box.read("device_token");
+    tempToken = box.read("user_id");
     box.erase();
-    box.write("device_token", tempToken);
+    box.write("user_id", tempToken);
   }
 
 }

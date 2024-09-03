@@ -51,21 +51,7 @@ extension EditVegetableDetailsScreenExtenstion on SignUpScreen {
         .paddingOnly(bottom: 12.h));
   }
 
-  Widget lastNameTxtField() {
-    return Obx(() => commonTextFieldWidget(
-            maxLength: 30,
-            title: AppStrings.lastName.tr,
-            keyboardType: TextInputType.name,
-            hint: AppStrings.enterLastName.tr,
-            controller: controller.lastNameController,
-            focusNode: controller.lastNameFocusNode.value,
-            nextNode: controller.emailFocusNode.value,
-            errorMsg: controller.lastNameErrorMsg,
-            isError: controller.isLastNameError.value,
-            onChanged: (value) => controller.validate(onChangeLastName: true),
-            lastIconPath: ImageResource.userIc)
-        .paddingOnly(bottom: 12.h));
-  }
+
 
   Widget emailTxtField() {
     return Obx(() => commonTextFieldWidget(
@@ -149,7 +135,7 @@ extension EditVegetableDetailsScreenExtenstion on SignUpScreen {
     ).paddingOnly(bottom: 22.h);
   }
 
-  Widget signUpGoogle() {
+/*  Widget signUpGoogle() {
     return CustomTapState(
       onTap: () => controller.onLoginWithGoogleClick(),
       child: BorderContainer(
@@ -195,7 +181,7 @@ extension EditVegetableDetailsScreenExtenstion on SignUpScreen {
         ),
       ).paddingOnly(bottom: 18.h),
     ):const SizedBox().paddingOnly(bottom: 18.h);
-  }
+  }*/
 
   Widget notHaveAccountText() {
     return Row(

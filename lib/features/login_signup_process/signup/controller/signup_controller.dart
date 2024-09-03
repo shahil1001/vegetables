@@ -1,13 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
-
+import 'package:flutter_api_call_with_mvc/core/common_dialog.dart';
 import 'package:flutter_api_call_with_mvc/core/common_functionality/dismiss_keyboard.dart';
 
 import 'package:flutter_api_call_with_mvc/core/constants/app_strings.dart';
 import 'package:flutter_api_call_with_mvc/core/network_utility/dio_exceptions.dart';
 import 'package:flutter_api_call_with_mvc/core/auth_provider/auth_provider.dart'
-as provider;
+    as provider;
 import 'package:flutter_api_call_with_mvc/core/routes/app_routes.dart';
 
 import 'package:flutter_api_call_with_mvc/core/storage/local_storage.dart';
@@ -36,6 +36,11 @@ class SignUpController extends GetxController {
   String emailErrorMsg = '';
   RxBool isEmailError = false.obs;
 
+  var phoneController = TextEditingController(); // Added phoneController
+  var phoneFocusNode = FocusNode().obs; // Added phoneFocusNode
+  String phoneErrorMsg = ''; // Added phoneErrorMsg
+  RxBool isphoneError = false.obs; // Added isphoneError
+
   var pwdController = TextEditingController();
   var pwdFocusNode = FocusNode().obs;
   String pwdErrorMsg = '';
@@ -59,6 +64,10 @@ class SignUpController extends GetxController {
     emailFocusNode.value.addListener(() {
       emailFocusNode.refresh();
     });
+    phoneFocusNode.value.addListener(() {
+      // Added phoneFocusNode listener
+      phoneFocusNode.refresh();
+    });
     pwdFocusNode.value.addListener(() {
       pwdFocusNode.refresh();
     });
@@ -78,16 +87,21 @@ class SignUpController extends GetxController {
   disposeInitialization() {
     fistNameFocusNode.value.removeListener(() {});
     lastNameFocusNode.value.removeListener(() {});
-    confirmPwdFocusNode.value.removeListener(() {});
-    pwdFocusNode.value.removeListener(() {});
     emailFocusNode.value.removeListener(() {});
+    phoneFocusNode.value
+        .removeListener(() {}); // Added phoneFocusNode removeListener
+    pwdFocusNode.value.removeListener(() {});
+    confirmPwdFocusNode.value.removeListener(() {});
+
     emailFocusNode.value.dispose();
+    phoneFocusNode.value.dispose(); // Dispose phoneFocusNode
     pwdFocusNode.value.dispose();
     fistNameFocusNode.value.dispose();
     lastNameFocusNode.value.dispose();
     confirmPwdFocusNode.value.dispose();
 
     emailController.dispose();
+    phoneController.dispose(); // Dispose phoneController
     pwdController.dispose();
     confirmPwdController.dispose();
     fistNameController.dispose();
@@ -100,41 +114,37 @@ class SignUpController extends GetxController {
     pwdErrorMsg = '';
     fistNameErrorMsg = '';
     lastNameErrorMsg = '';
+    phoneErrorMsg = ''; // Reset phoneErrorMsg
     confirmPwdErrorMsg = '';
     showPwd.value = false;
-    // showConfirmPwd.value = false;
+
     isEmailError.value = false;
     isPwdError.value = false;
-
     isConfirmPwdError.value = false;
     isFistNameError.value = false;
     isLastNameError.value = false;
+    isphoneError.value = false; // Reset isphoneError
   }
 
-  onScreenClick() {
-    dismissKeyboard();
-  }
-
-  onClickSignUp() {
-    dismissKeyboard();
-    validate();
-  }
-
-  void validate(
-      {bool onChangeFirstName = false,
-      bool onChangeLastName = false,
-      bool onChangeEmail = false,
-      bool onChangePwd = false,
-      bool onChangeConPwd = false}) {
+  void validate({
+    bool onChangeFirstName = false,
+    // bool onChangeLastName = false,
+    bool onChangeEmail = false,
+    bool onChangePhone = false, // Added onChangePhone parameter
+    bool onChangePwd = false,
+    bool onChangeConPwd = false,
+  }) {
     String firstName = fistNameController.text.trim();
-    String lastName = lastNameController.text.trim();
     String email = emailController.text.trim();
+    String phone = phoneController.text.trim(); // Get phone value
     String pwd = pwdController.text.trim();
     String confirmPwd = confirmPwdController.text.trim();
 
     fistNameErrorMsg = ErrorMessages.firstNameIsEmpty.tr;
     lastNameErrorMsg = ErrorMessages.lastNameIsEmpty.tr;
     emailErrorMsg = ErrorMessages.emailIsEmpty.tr;
+    phoneErrorMsg =
+        ErrorMessages.phoneIsEmpty.tr; // Default phone error message
     if (!onChangePwd && !onChangeConPwd) {
       pwdErrorMsg = ErrorMessages.pwdIsEmpty.tr;
       confirmPwdErrorMsg = ErrorMessages.confirmPwdIsEmpty.tr;
@@ -146,24 +156,29 @@ class SignUpController extends GetxController {
       } else {
         isFistNameError.value = true;
       }
-    } else if (onChangeLastName) {
-      if (lastName.isNotEmpty) {
-        isLastNameError.value = false;
-      } else {
-        isLastNameError.value = true;
-      }
-    } else if (onChangeEmail) {
+    }  else if (onChangeEmail) {
       if (email.isNotEmpty) {
         if (isEmailValid(email)) {
           isEmailError.value = false;
         } else {
           emailErrorMsg = ErrorMessages.invalidEmailError.tr;
           isEmailError.value = true;
-          isEmailError.refresh();
         }
       } else {
-        isEmailError.refresh();
         isEmailError.value = true;
+      }
+    } else if (onChangePhone) {
+      // Validate phone number
+      if (phone.isNotEmpty) {
+        if (isPhoneValid(phone)) {
+          // Assuming isPhoneValid is a validation function
+          isphoneError.value = false;
+        } else {
+          phoneErrorMsg = ErrorMessages.invalidPhoneError.tr;
+          isphoneError.value = true;
+        }
+      } else {
+        isphoneError.value = true;
       }
     } else if (onChangePwd) {
       if (pwd.isNotEmpty) {
@@ -173,17 +188,14 @@ class SignUpController extends GetxController {
           } else {
             pwdErrorMsg = ErrorMessages.invalidPwdError.tr;
             isPwdError.value = true;
-            isPwdError.refresh();
           }
         } else {
           pwdErrorMsg = ErrorMessages.pwdLessThanEightError.tr;
           isPwdError.value = true;
-          isPwdError.refresh();
         }
       } else {
         pwdErrorMsg = ErrorMessages.pwdIsEmpty.tr;
         isPwdError.value = true;
-        isPwdError.refresh();
       }
     } else if (onChangeConPwd) {
       if (confirmPwd.isNotEmpty) {
@@ -192,72 +204,76 @@ class SignUpController extends GetxController {
         } else {
           confirmPwdErrorMsg = ErrorMessages.confirmPwdNotMatchError.tr;
           isConfirmPwdError.value = true;
-          isConfirmPwdError.refresh();
         }
       } else {
         confirmPwdErrorMsg = ErrorMessages.confirmPwdIsEmpty.tr;
         isConfirmPwdError.value = true;
-        isConfirmPwdError.refresh();
       }
     } else {
       if (firstName.isEmpty &&
-          lastName.isEmpty &&
+          // lastName.isEmpty &&
           email.isEmpty &&
+          phone.isEmpty && // Added phone validation
           pwd.isEmpty &&
           confirmPwd.isEmpty) {
         isFistNameError.value = true;
         isLastNameError.value = true;
         isEmailError.value = true;
+        isphoneError.value = true; // Set phone error
         isPwdError.value = true;
         isConfirmPwdError.value = true;
       } else if (firstName.isEmpty) {
         isFistNameError.value = true;
-      } else if (lastName.isEmpty) {
-        isLastNameError.value = true;
       } else if (email.isEmpty) {
         isEmailError.value = true;
+      } else if (phone.isEmpty) {
+        // Added phone empty check
+        isphoneError.value = true;
       } else {
         if (isEmailValid(email)) {
-          if (pwd.isNotEmpty) {
-            if (pwd.length > 7) {
-              if (passwordValidate(pwd)) {
-                if (confirmPwd.isNotEmpty) {
-                  if (confirmPwd == pwd) {
-                    isFistNameError.value = false;
-                    isLastNameError.value = false;
-                    isEmailError.value = false;
-                    isPwdError.value = false;
-                    isConfirmPwdError.value = false;
-                    socialLoginApi(
-                        firstName: firstName,
-                        lastName: '${lastName}',
-                        name: '${firstName} ${lastName}',
+          if (isPhoneValid(phone)) {
+            // Added phone validation check
+            if (pwd.isNotEmpty) {
+              if (pwd.length > 7) {
+                if (passwordValidate(pwd)) {
+                  if (confirmPwd.isNotEmpty) {
+                    if (confirmPwd == pwd) {
+                      isFistNameError.value = false;
+                      isLastNameError.value = false;
+                      isEmailError.value = false;
+                      isphoneError.value = false; // Set phone error to false
+                      isPwdError.value = false;
+                      isConfirmPwdError.value = false;
+                      socialLoginApi(
+                        mobile: phone,
+                        name: firstName,
                         email: email,
                         pwd: pwd,
-                        socialId: "",
-                        is_social_signup: '',
-                        social_type: '');
+                      );
+                    } else {
+                      confirmPwdErrorMsg =
+                          ErrorMessages.confirmPwdNotMatchError.tr;
+                      isConfirmPwdError.value = true;
+                    }
                   } else {
-                    confirmPwdErrorMsg =
-                        ErrorMessages.confirmPwdNotMatchError.tr;
+                    confirmPwdErrorMsg = ErrorMessages.confirmPwdIsEmpty.tr;
                     isConfirmPwdError.value = true;
                   }
                 } else {
-                  confirmPwdErrorMsg = ErrorMessages.confirmPwdIsEmpty.tr;
-                  isConfirmPwdError.value = true;
+                  pwdErrorMsg = ErrorMessages.invalidPwdError.tr;
+                  isPwdError.value = true;
                 }
               } else {
-                pwdErrorMsg = ErrorMessages.invalidPwdError.tr;
+                pwdErrorMsg = ErrorMessages.pwdLessThanEightError.tr;
                 isPwdError.value = true;
               }
             } else {
-              pwdErrorMsg = ErrorMessages.pwdLessThanEightError.tr;
+              pwdErrorMsg = ErrorMessages.pwdIsEmpty.tr;
               isPwdError.value = true;
             }
           } else {
-            isEmailError.value = false;
-            isPwdError.value = true;
-            pwdErrorMsg = ErrorMessages.pwdIsEmpty.tr;
+            phoneErrorMsg = ErrorMessages.invalidPhoneError.tr;
+            isphoneError.value = true;
           }
         } else {
           emailErrorMsg = ErrorMessages.invalidEmailError.tr;
@@ -266,88 +282,50 @@ class SignUpController extends GetxController {
       }
     }
   }
-  void onLoginWithGoogleClick() async {
-    dismissKeyboard();
 
+  onClickSignUp() {
+    dismissKeyboard();
+    validate();
   }
 
-  setLoader({bool value = false}){
-    isLoading.value = value;
-    isLoading.refresh();
+  onScreenClick() {
+    dismissKeyboard();
   }
 
-  void onLoginWithApple() async {
+  void socialLoginApi({
+    required String name,
+    required String email,
+    required String mobile,
+    required String pwd,
+  }) async {
     dismissKeyboard();
+    isLoading.value = true;
 
-
-  }
-
-  void socialLoginApi(
-      {required String firstName,
-      required String lastName,
-      required String name,
-      required String email,
-      required String social_type,
-        required socialId,
-        required String is_social_signup,
-      required String pwd}) async {
-    dismissKeyboard();
-
-
-    setLoader(value: true);
+    // Create a request with only the required fields
     var request = {
-      "username": "",
-      "full_name": '${firstName} ${lastName}',
+      "name": name,
       "email": email,
+      "mobile": mobile,
       "password": pwd,
-      "device_type": isIos ? '1' : '0',
-      "social_type": social_type,
-      "is_social_signup": is_social_signup,
-      "city_id": '',
-      "state_id": '',
-      "country_code": '',
-      "mobile_number": '',
     };
 
-    if(social_type == "apple"){
-      request["apple_user_id"] = socialId;
-    }
-
-    print("signup request : ${request}");
+    print("Signup request: $request");
 
     var formData = dio.FormData.fromMap(request);
-    String deviceToken = Prefs.read(Prefs.deviceToken);
-    if (Platform.isIOS) {
-      formData.fields.add(MapEntry(
-          'ios_token',await deviceToken));
-    } else if(Platform.isAndroid) {
-      formData.fields.add(MapEntry(
-          'android_token', await deviceToken));
-    }
-    print(
-        'userName->""\nfull_name->${firstName}${lastName}\nemail->${email}\npassword->${pwd}\device_type->${name}\nsocial_type->${social_type}\nis_social_signup->${is_social_signup}\n');
+
+    print('Name: $name\nEmail: $email\nMobile: $mobile\nPassword: $pwd');
+
     SignUpModel? response = await authProvider.signUpRequest(body: formData);
-    setLoader(value: false);
-    print('response email ${response?.data?.emailVerified}');
-    if (response?.success == true) {
-      Prefs.write(Prefs.token, response?.data?.token ?? '');
-      if (response?.data?.emailVerified is String &&
-          response?.data?.emailVerified == '1') {
-        Prefs.write(Prefs.userId, response?.data?.loginId ?? 0);
-        Get.offAllNamed(Routes.homeScreen);
-      } else if (response?.data?.emailVerified is int &&
-          response?.data?.emailVerified == 1) {
-        Prefs.write(Prefs.userId, response?.data?.loginId ?? 0);
-        Get.offAllNamed(Routes.homeScreen);
-      } else {
-      /*  Get.toNamed(Routes.otpVerificationScreen, parameters: {
-          'mail': emailController.text.trim(),
-          'fromSignUp': 'true',
-          'loginId': response?.data?.loginId ?? ''
-        });*/
-      }
-    }else{
-      apiErrorDialog(message: response?.text??'');
+    isLoading.value = false;
+
+    if (response != null && response.data != null) {
+      Prefs.write(Prefs.userToken, response.data?.userToken ?? '');
+
+      // Handle success, e.g., navigating to the home screen
+      Get.offAllNamed(Routes.homeScreen);
+      showToast("Congratulations! Your account is created.");
+    } else {
+      apiErrorDialog(message: response?.message ?? 'Sign-up failed.');
     }
   }
 }

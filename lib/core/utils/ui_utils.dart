@@ -18,6 +18,19 @@ bool passwordValidate(String password){
   }
   return response;
 }
+bool isPhoneValid(String phoneNumber) {
+  // Check if the phone number is exactly 10 digits long
+  if (phoneNumber.length < 10) {
+    return false;
+  }
+
+  // Check if the phone number contains only digits
+  String pattern = r'^\d{10,}$';
+  RegExp regExp = RegExp(pattern);
+
+  return regExp.hasMatch(phoneNumber);
+}
+
 
 bool validatePassword(String password) {
   // Check if the password has at least 8 characters

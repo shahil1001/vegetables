@@ -72,7 +72,7 @@ RxBool isLoading=false.obs;
   Future editVegetablesList() async {
     isLoading.value = true;
     try {
-      var token = "c2a2f674c6f6a1d2374da1ebfab69adc";
+      var token = await Prefs.read(Prefs.userToken);
 
       var formData = dio.FormData.fromMap({
         "user_login_token": token,
@@ -93,6 +93,38 @@ RxBool isLoading=false.obs;
         isLoading.value = false;
         Get.offAllNamed(Routes.homeScreen);
         showToast("Product is edited successfully");
+
+        // log("vegetableList___${vegetables.length}");
+      } else {
+        throw Exception("Unexpected response format");
+      }
+    } catch (e) {
+      print("Errorrrr>> ${e.toString()}");
+      // Clear the list on error
+    } finally {
+      isLoading.value = false;
+    }
+  }
+  Future deleteVegetablesList() async {
+    isLoading.value = true;
+    try {
+      var token = await Prefs.read(Prefs.userToken);
+
+      var formData = dio.FormData.fromMap({
+        "user_login_token": token,
+        "id":id,
+      });
+
+      dio.Response response = await apiHitter.postApii(
+        endPoint: EndPoints.deleteProduct,
+        body: formData,
+      );
+
+      // Ensure response.data is treated as a List<dynamic>
+      if (response.statusCode == 200) {
+        isLoading.value = false;
+        Get.offAllNamed(Routes.homeScreen);
+        showToast("Product is deleted successfully");
 
         // log("vegetableList___${vegetables.length}");
       } else {

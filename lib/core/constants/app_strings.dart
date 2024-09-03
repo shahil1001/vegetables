@@ -16,9 +16,11 @@ class AppStrings {
   static const signUpWithApple = 'Signup with Apple';
   static const dontHaveAcc = 'Don’t have an account? ';
   static const mailAddress = 'Email address';
+  static const mobilePhone = 'Mobile';
   static const pwd = 'Password';
   static const hintPwd = 'Enter your password';
   static const hintEmail = 'Enter your email';
+  static const hintMobile = 'Enter your mobile number';
   static const showPwd = 'Show password';
   static const welcomeToFlippBidd = 'Welcome to FlippBidd';
   static const enterVoicePrompt = 'Enter Voice Prompt';
@@ -26,7 +28,7 @@ class AppStrings {
 // SignUpScreen
   static const signUpYrAcc = 'Signup Your Account!';
   static const signUpYrAccDec = 'Signup now to join our Real Estate Community!';
-  static const firstname = 'First name';
+  static const firstname = 'Name';
   static const enterFirstName = 'Enter first name';
   static const lastName = 'Last name';
   static const enterLastName = 'Enter last name';
@@ -454,6 +456,11 @@ class ErrorMessages {
   static const newPwdIsEmpty = 'New password is required.';
   static const pwdIsEmpty = 'Password is required.';
   static const pwdLessThanEightError = 'Minimum 8 characters required.';
+
+  static const String phoneIsEmpty = 'Phone number cannot be empty.';
+  static const String invalidPhoneError = 'Please enter a valid phone number with at least 10 digits.';
+
+
   static const invalidPwdError =
       'Password must contain 8 characters(1 uppercase, lowercase, number, and special character).';
 

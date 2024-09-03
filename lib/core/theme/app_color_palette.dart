@@ -65,8 +65,12 @@ AppColorPalette lightColorPalette = AppColorPalette(
     bottomLine: const Color(0xFFDCDCDC),
     commonGradientColor: [Color(0xFF00ACDB),Color(0xFF003F79)],
     reverseCommonGradientColor: [
-      Color(0xFF003F79),
-      Color(0xFF00ACDB),
+      // Color(0xFF003F79),
+      // Color(0xFF00ACDB),
+      Color(0xFF673AB7),  // Deep Purple
+      Color(0xFF9575CD),  // Lighter Purple
+     // Very Light Purple
+       // White // white
     ],
     commonBtnGradientColor: [
       Color(0xFFC830EB),

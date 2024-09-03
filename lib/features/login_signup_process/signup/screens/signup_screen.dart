@@ -32,13 +32,15 @@ class SignUpScreen extends GetView<SignUpController> {
                       signUpTitle(),
                       signUpDecTxt(),
                       fistNameTxtField(),
-                      lastNameTxtField(),
+                      // lastNameTxtField(),
                       emailTxtField(),
+                      phoneTxtField(),
+
                       pwdTxtField(),
                       confirmPwdTxtField(),
                       signUpBtn(),
-                      signUpGoogle(),
-                      signUpApple(),
+                      // signUpGoogle(),
+                      // signUpApple(),
                       notHaveAccountText(),
                       bottomSpace()
                     ],

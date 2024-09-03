@@ -5,8 +5,9 @@ class EndPoints {
   static const String getProductsList = "/productList.php";
   static const String addProductsList = "/addProduct.php";
   static const String editProductsList = "/editProduct.php";
+  static const String deleteProduct= "/deleteProduct.php";
   static const String login = "/Login.php";
-  static const String register = "/register";
+  static const String register = "/Register.php";
   static const String forgotPassword = "/forgot_password";
   static const String otpSend = "/email/otp/sent";
   static const String verifyOtp = "/email/otp/verify";
